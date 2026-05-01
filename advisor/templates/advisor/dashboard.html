@@ -14,7 +14,7 @@
     <!-- Form Column -->
     <div class="col-lg-8 mb-4">
         <div class="glass-card h-100">
-            <h4 class="mb-4 text-white fw-bold">Assessment Input</h4>
+            <h4 class="mb-4 fw-bold" style="color: var(--text-main);">Assessment Input</h4>
             <form method="post" action="{% url 'advisor:dashboard' %}">
                 {% csrf_token %}
                 
@@ -105,36 +105,36 @@
         </div>
     </div>
 
-    <!-- Index Guide Column (Shifted Classes to 1-5 and fixed text visibility) -->
+    <!-- Index Guide Column -->
     <div class="col-lg-4 mb-4">
-        <div class="glass-card h-100" style="background: rgba(13, 14, 33, 0.8);">
-            <h5 class="mb-4 text-white fw-bold"><i class="bi bi-info-circle-fill me-2" style="color: var(--accent-primary);"></i> Health Impact Index</h5>
-            <p class="text-white-50 small mb-4 lh-lg">The AI model classifies health risk into one of 5 distinct categories based on your input.</p>
+        <div class="glass-card h-100" style="background: var(--sidebar-bg);">
+            <h5 class="mb-4 fw-bold" style="color: var(--text-main);"><i class="bi bi-info-circle-fill me-2" style="color: var(--accent-primary);"></i> Health Impact Index</h5>
+            <p class="small mb-4 lh-lg" style="color: var(--text-muted);">The AI model classifies health risk into one of 5 distinct categories based on your input.</p>
             
             <div class="d-flex flex-column gap-3">
-                <div class="p-4 rounded-4 position-relative overflow-hidden" style="background: rgba(52, 211, 153, 0.15); border-left: 5px solid #34d399;">
-                    <h6 class="mb-2 fw-bold" style="color: #6ee7b7; font-size: 1.1rem;">Level 1: Good</h6>
-                    <span style="color: #d1fae5; font-size: 0.95rem;">No health impact. Ideal air quality.</span>
+                <div class="p-4 rounded-4 position-relative overflow-hidden" style="background: rgba(52, 211, 153, 0.15); border-left: 5px solid #10b981;">
+                    <h6 class="mb-2 fw-bold" style="color: var(--text-main); font-size: 1.1rem;">Level 1: Good</h6>
+                    <span style="color: var(--text-muted); font-size: 0.95rem;">No health impact. Ideal air quality.</span>
                 </div>
                 
-                <div class="p-4 rounded-4 position-relative overflow-hidden" style="background: rgba(250, 204, 21, 0.15); border-left: 5px solid #facc15;">
-                    <h6 class="mb-2 fw-bold" style="color: #fde047; font-size: 1.1rem;">Level 2: Moderate</h6>
-                    <span style="color: #fef08a; font-size: 0.95rem;">Minor irritation possible for sensitive individuals.</span>
+                <div class="p-4 rounded-4 position-relative overflow-hidden" style="background: rgba(250, 204, 21, 0.15); border-left: 5px solid #eab308;">
+                    <h6 class="mb-2 fw-bold" style="color: var(--text-main); font-size: 1.1rem;">Level 2: Moderate</h6>
+                    <span style="color: var(--text-muted); font-size: 0.95rem;">Minor irritation possible for sensitive individuals.</span>
                 </div>
                 
-                <div class="p-4 rounded-4 position-relative overflow-hidden" style="background: rgba(249, 115, 22, 0.15); border-left: 5px solid #fb923c;">
-                    <h6 class="mb-2 fw-bold" style="color: #fdba74; font-size: 1.1rem;">Level 3: Unhealthy (Sensitive)</h6>
-                    <span style="color: #fed7aa; font-size: 0.95rem;">Unhealthy for sensitive groups like children and the elderly.</span>
+                <div class="p-4 rounded-4 position-relative overflow-hidden" style="background: rgba(249, 115, 22, 0.15); border-left: 5px solid #f97316;">
+                    <h6 class="mb-2 fw-bold" style="color: var(--text-main); font-size: 1.1rem;">Level 3: Unhealthy (Sensitive)</h6>
+                    <span style="color: var(--text-muted); font-size: 0.95rem;">Unhealthy for sensitive groups like children and the elderly.</span>
                 </div>
                 
-                <div class="p-4 rounded-4 position-relative overflow-hidden" style="background: rgba(239, 68, 68, 0.15); border-left: 5px solid #f87171;">
-                    <h6 class="mb-2 fw-bold" style="color: #fca5a5; font-size: 1.1rem;">Level 4: Unhealthy</h6>
-                    <span style="color: #fecaca; font-size: 0.95rem;">Significant risk. Everyone may begin to experience health effects.</span>
+                <div class="p-4 rounded-4 position-relative overflow-hidden" style="background: rgba(239, 68, 68, 0.15); border-left: 5px solid #ef4444;">
+                    <h6 class="mb-2 fw-bold" style="color: var(--text-main); font-size: 1.1rem;">Level 4: Unhealthy</h6>
+                    <span style="color: var(--text-muted); font-size: 0.95rem;">Significant risk. Everyone may begin to experience health effects.</span>
                 </div>
                 
-                <div class="p-4 rounded-4 position-relative overflow-hidden" style="background: rgba(153, 27, 27, 0.3); border-left: 5px solid #f87171;">
-                    <h6 class="mb-2 fw-bold" style="color: #ffb3b3; font-size: 1.1rem;">Level 5: Hazardous</h6>
-                    <span style="color: #ffe6e6; font-size: 0.95rem;">Emergency conditions. Avoid all outdoor activities.</span>
+                <div class="p-4 rounded-4 position-relative overflow-hidden" style="background: rgba(153, 27, 27, 0.25); border-left: 5px solid #dc2626;">
+                    <h6 class="mb-2 fw-bold" style="color: var(--text-main); font-size: 1.1rem;">Level 5: Hazardous</h6>
+                    <span style="color: var(--text-muted); font-size: 0.95rem;">Emergency conditions. Avoid all outdoor activities.</span>
                 </div>
             </div>
         </div>

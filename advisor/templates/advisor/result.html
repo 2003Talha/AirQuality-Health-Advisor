@@ -21,8 +21,8 @@
     .status-4 { background: rgba(153, 27, 27, 0.3); color: #fca5a5; border: 1px solid rgba(248, 113, 113, 0.4); }
 
     .stat-box {
-        background: rgba(15, 23, 42, 0.4);
-        border: 1px solid rgba(255, 255, 255, 0.05);
+        background: var(--input-bg);
+        border: 1px solid var(--input-border);
         border-radius: 12px;
         padding: 1.5rem;
         text-align: center;
@@ -37,7 +37,7 @@
     .stat-value {
         font-size: 1.8rem;
         font-weight: 700;
-        color: white;
+        color: var(--text-main);
     }
 </style>
 {% endblock %}
@@ -53,14 +53,14 @@
 
 <div class="row">
     <!-- Main Prediction Card -->
-    <div class="col-lg-8">
+    <div class="col-lg-8 mb-4">
         <div class="glass-card h-100 position-relative overflow-hidden">
             <!-- Decorative circle -->
             <div style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; border-radius: 50%; background: var(--bs-{{ alert_level }}); filter: blur(60px); opacity: 0.2; pointer-events: none;"></div>
             
-            <h5 class="text-muted mb-4">AI Prediction</h5>
+            <h4 class="mb-4 fw-bold" style="color: var(--text-main);"><i class="bi bi-robot me-2 text-primary"></i> AI Prediction</h4>
             
-            <div class="mb-4">
+            <div class="mb-5">
                 <div class="result-badge status-{{ record.health_impact_class }} mb-3">
                     {% if record.health_impact_class == 0 %}<i class="bi bi-emoji-smile"></i>
                     {% elif record.health_impact_class == 1 %}<i class="bi bi-emoji-neutral"></i>
@@ -71,11 +71,11 @@
                 </div>
             </div>
 
-            <div class="mt-5">
-                <h6 class="text-white mb-3"><i class="bi bi-shield-check me-2 text-{{ alert_level }}"></i> Recommended Actions</h6>
+            <div>
+                <h4 class="mb-4 fw-bold" style="color: var(--text-main);"><i class="bi bi-shield-check me-2 text-success"></i> Recommended Actions</h4>
                 <ul class="list-group list-group-flush">
                     {% for item in advice %}
-                        <li class="list-group-item bg-transparent text-light border-secondary py-3 px-0">
+                        <li class="list-group-item bg-transparent py-3 px-0" style="color: var(--text-main); border-color: var(--card-border);">
                             <i class="bi bi-check2-circle text-{{ alert_level }} me-2"></i> {{ item }}
                         </li>
                     {% endfor %}
@@ -85,9 +85,9 @@
     </div>
 
     <!-- Metrics Summary Sidebar -->
-    <div class="col-lg-4 mt-4 mt-lg-0">
-        <div class="glass-card">
-            <h5 class="text-muted mb-4">Input Summary</h5>
+    <div class="col-lg-4 mb-4">
+        <div class="glass-card h-100" style="background: var(--sidebar-bg);">
+            <h5 class="mb-4 fw-bold" style="color: var(--text-main);">Input Summary</h5>
             
             <div class="d-flex flex-column gap-3">
                 <div class="stat-box">
@@ -97,20 +97,20 @@
                 
                 <div class="stat-box">
                     <div class="stat-label">PM2.5 Level</div>
-                    <div class="stat-value">{{ record.pm2_5|floatformat:1 }} <span style="font-size: 1rem; color: #94a3b8;">µg/m³</span></div>
+                    <div class="stat-value">{{ record.pm2_5|floatformat:1 }} <span style="font-size: 1rem; color: var(--text-muted);">µg/m³</span></div>
                 </div>
 
                 <div class="stat-box">
                     <div class="stat-label">Temperature</div>
-                    <div class="stat-value">{{ record.temperature|floatformat:1 }} <span style="font-size: 1rem; color: #94a3b8;">°C</span></div>
+                    <div class="stat-value">{{ record.temperature|floatformat:1 }} <span style="font-size: 1rem; color: var(--text-muted);">°C</span></div>
                 </div>
             </div>
             
-            <hr class="border-secondary my-4">
+            <hr style="border-color: var(--card-border); my-4">
             
             <div class="text-center">
-                <p class="text-muted small mb-0">Record #{{ record.id }}</p>
-                <p class="text-muted small">{{ record.created_at|date:"M d, Y H:i" }}</p>
+                <p class="small mb-1" style="color: var(--text-muted);">Record #{{ record.id }}</p>
+                <p class="small mb-0" style="color: var(--text-muted);">{{ record.created_at|date:"M d, Y H:i" }}</p>
             </div>
         </div>
     </div>
