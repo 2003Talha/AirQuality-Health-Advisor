@@ -196,6 +196,20 @@
             transform: translateZ(0);
         }
 
+        /* AQI Category Status Colors */
+        .status-good { --status-color: #10b981; --status-bg: rgba(16, 185, 129, 0.15); }
+        .status-moderate { --status-color: #eab308; --status-bg: rgba(234, 179, 8, 0.15); }
+        .status-unhealthy-for-sensitive-groups { --status-color: #f97316; --status-bg: rgba(249, 115, 22, 0.15); }
+        .status-unhealthy { --status-color: #ef4444; --status-bg: rgba(239, 68, 68, 0.15); }
+        .status-very-unhealthy { --status-color: #8b5cf6; --status-bg: rgba(139, 92, 246, 0.15); }
+        .status-hazardous { --status-color: #991b1b; --status-bg: rgba(153, 27, 27, 0.25); }
+
+        .badge-status {
+            background: var(--status-bg) !important;
+            color: var(--status-color) !important;
+            border: 1px solid var(--status-color) !important;
+        }
+
         .glass-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 40px -5px rgba(0, 242, 254, 0.15);

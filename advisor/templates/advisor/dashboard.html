@@ -19,18 +19,14 @@
                 {% csrf_token %}
                 
                 <div class="row g-4">
-                    <!-- Air Quality Metrics Section -->
+                    <!-- Core Pollutants Section -->
                     <div class="col-12 mt-4">
                         <h6 class="text-uppercase fw-bold mb-3" style="color: var(--accent-primary); font-size: 0.85rem; letter-spacing: 2px;">
-                            <i class="bi bi-cloud-haze2 me-2"></i>Air Quality Metrics
+                            <i class="bi bi-cloud-haze2 me-2"></i>Core Pollutants
                         </h6>
                         <hr style="border-color: rgba(255,255,255,0.1); mt-0 mb-4">
                     </div>
                     
-                    <div class="col-md-4">
-                        <label class="form-label">AQI (Index)</label>
-                        {{ form.aqi }}
-                    </div>
                     <div class="col-md-4">
                         <label class="form-label">PM10 (µg/m³)</label>
                         {{ form.pm10 }}
@@ -39,18 +35,26 @@
                         <label class="form-label">PM2.5 (µg/m³)</label>
                         {{ form.pm2_5 }}
                     </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Carbon Monoxide</label>
+                        {{ form.carbon_monoxide }}
+                    </div>
                     
                     <div class="col-md-4">
-                        <label class="form-label">NO2 (ppb)</label>
-                        {{ form.no2 }}
+                        <label class="form-label">Nitrogen Dioxide</label>
+                        {{ form.nitrogen_dioxide }}
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label">SO2 (ppb)</label>
-                        {{ form.so2 }}
+                        <label class="form-label">Sulphur Dioxide</label>
+                        {{ form.sulphur_dioxide }}
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label">O3 (ppb)</label>
-                        {{ form.o3 }}
+                        <label class="form-label">Ozone</label>
+                        {{ form.ozone }}
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Dust</label>
+                        {{ form.dust }}
                     </div>
 
                     <!-- Weather Section -->
@@ -70,29 +74,16 @@
                         {{ form.humidity }}
                     </div>
                     <div class="col-md-4">
+                        <label class="form-label">Precipitation</label>
+                        {{ form.precipitation }}
+                    </div>
+                    <div class="col-md-4">
                         <label class="form-label">Wind Speed (m/s)</label>
                         {{ form.wind_speed }}
                     </div>
-
-                    <!-- Current Regional Health Data Section -->
-                    <div class="col-12 mt-5">
-                        <h6 class="text-uppercase fw-bold mb-3" style="color: var(--accent-primary); font-size: 0.85rem; letter-spacing: 2px;">
-                            <i class="bi bi-heart-pulse me-2"></i>Regional Health Status (Current)
-                        </h6>
-                        <hr style="border-color: rgba(255,255,255,0.1); mt-0 mb-4">
-                    </div>
-
                     <div class="col-md-4">
-                        <label class="form-label">Respiratory Cases</label>
-                        {{ form.respiratory_cases }}
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Cardiovascular Cases</label>
-                        {{ form.cardiovascular_cases }}
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Hospital Admissions</label>
-                        {{ form.hospital_admissions }}
+                        <label class="form-label">Pressure</label>
+                        {{ form.pressure }}
                     </div>
 
                     <div class="col-12 mt-5 text-end">
@@ -109,32 +100,37 @@
     <div class="col-lg-4 mb-4">
         <div class="glass-card h-100" style="background: var(--sidebar-bg);">
             <h5 class="mb-4 fw-bold" style="color: var(--text-main);"><i class="bi bi-info-circle-fill me-2" style="color: var(--accent-primary);"></i> Health Impact Index</h5>
-            <p class="small mb-4 lh-lg" style="color: var(--text-muted);">The AI model classifies health risk into one of 5 distinct categories based on your input.</p>
+            <p class="small mb-4 lh-lg" style="color: var(--text-muted);">The AI model classifies health risk into one of 6 distinct categories based on your input.</p>
             
             <div class="d-flex flex-column gap-3">
-                <div class="p-4 rounded-4 position-relative overflow-hidden" style="background: rgba(52, 211, 153, 0.15); border-left: 5px solid #10b981;">
-                    <h6 class="mb-2 fw-bold" style="color: var(--text-main); font-size: 1.1rem;">Level 1: Good</h6>
-                    <span style="color: var(--text-muted); font-size: 0.95rem;">No health impact. Ideal air quality.</span>
+                <div class="p-3 rounded-4 position-relative overflow-hidden status-good badge-status" style="border-left: 5px solid var(--status-color) !important;">
+                    <h6 class="mb-2 fw-bold" style="color: var(--text-main); font-size: 1.0rem;">Good</h6>
+                    <span style="color: var(--text-muted); font-size: 0.9rem;">No health impact. Ideal air quality.</span>
                 </div>
                 
-                <div class="p-4 rounded-4 position-relative overflow-hidden" style="background: rgba(250, 204, 21, 0.15); border-left: 5px solid #eab308;">
-                    <h6 class="mb-2 fw-bold" style="color: var(--text-main); font-size: 1.1rem;">Level 2: Moderate</h6>
-                    <span style="color: var(--text-muted); font-size: 0.95rem;">Minor irritation possible for sensitive individuals.</span>
+                <div class="p-3 rounded-4 position-relative overflow-hidden status-moderate badge-status" style="border-left: 5px solid var(--status-color) !important;">
+                    <h6 class="mb-2 fw-bold" style="color: var(--text-main); font-size: 1.0rem;">Moderate</h6>
+                    <span style="color: var(--text-muted); font-size: 0.9rem;">Minor irritation possible for sensitive individuals.</span>
                 </div>
                 
-                <div class="p-4 rounded-4 position-relative overflow-hidden" style="background: rgba(249, 115, 22, 0.15); border-left: 5px solid #f97316;">
-                    <h6 class="mb-2 fw-bold" style="color: var(--text-main); font-size: 1.1rem;">Level 3: Unhealthy (Sensitive)</h6>
-                    <span style="color: var(--text-muted); font-size: 0.95rem;">Unhealthy for sensitive groups like children and the elderly.</span>
+                <div class="p-3 rounded-4 position-relative overflow-hidden status-unhealthy-for-sensitive-groups badge-status" style="border-left: 5px solid var(--status-color) !important;">
+                    <h6 class="mb-2 fw-bold" style="color: var(--text-main); font-size: 1.0rem;">Unhealthy for Sensitive Groups</h6>
+                    <span style="color: var(--text-muted); font-size: 0.9rem;">Unhealthy for children and the elderly.</span>
                 </div>
                 
-                <div class="p-4 rounded-4 position-relative overflow-hidden" style="background: rgba(239, 68, 68, 0.15); border-left: 5px solid #ef4444;">
-                    <h6 class="mb-2 fw-bold" style="color: var(--text-main); font-size: 1.1rem;">Level 4: Unhealthy</h6>
-                    <span style="color: var(--text-muted); font-size: 0.95rem;">Significant risk. Everyone may begin to experience health effects.</span>
+                <div class="p-3 rounded-4 position-relative overflow-hidden status-unhealthy badge-status" style="border-left: 5px solid var(--status-color) !important;">
+                    <h6 class="mb-2 fw-bold" style="color: var(--text-main); font-size: 1.0rem;">Unhealthy</h6>
+                    <span style="color: var(--text-muted); font-size: 0.9rem;">Significant risk. Everyone may experience health effects.</span>
                 </div>
                 
-                <div class="p-4 rounded-4 position-relative overflow-hidden" style="background: rgba(153, 27, 27, 0.25); border-left: 5px solid #dc2626;">
-                    <h6 class="mb-2 fw-bold" style="color: var(--text-main); font-size: 1.1rem;">Level 5: Hazardous</h6>
-                    <span style="color: var(--text-muted); font-size: 0.95rem;">Emergency conditions. Avoid all outdoor activities.</span>
+                <div class="p-3 rounded-4 position-relative overflow-hidden status-very-unhealthy badge-status" style="border-left: 5px solid var(--status-color) !important;">
+                    <h6 class="mb-2 fw-bold" style="color: var(--text-main); font-size: 1.0rem;">Very Unhealthy</h6>
+                    <span style="color: var(--text-muted); font-size: 0.9rem;">Health warnings of emergency conditions.</span>
+                </div>
+
+                <div class="p-3 rounded-4 position-relative overflow-hidden status-hazardous badge-status" style="border-left: 5px solid var(--status-color) !important;">
+                    <h6 class="mb-2 fw-bold" style="color: var(--text-main); font-size: 1.0rem;">Hazardous</h6>
+                    <span style="color: var(--text-muted); font-size: 0.9rem;">Emergency conditions. Avoid all outdoor activities.</span>
                 </div>
             </div>
         </div>

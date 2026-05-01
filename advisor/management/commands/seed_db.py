@@ -1,84 +1,53 @@
-"""
-seed_db - Django management command
-====================================
-Loads the Kaggle air-quality CSV into the AirQualityRecord table.
-
-Usage:
-    python manage.py seed_db                   # default CSV path
-    python manage.py seed_db --csv path/to.csv # custom CSV
-    python manage.py seed_db --clear           # wipe table first
-"""
-
+import csv
 import os
-
-import pandas as pd
-from django.conf import settings
 from django.core.management.base import BaseCommand
-
 from advisor.models import AirQualityRecord
-
+from django.conf import settings
 
 class Command(BaseCommand):
-    help = "Seed the database with air-quality data from a CSV file."
+    help = "Seeds the database with data from pakistan_air_quality_final_clean.csv"
 
-    def add_arguments(self, parser):
-        parser.add_argument(
-            "--csv",
-            type=str,
-            default=os.path.join(settings.BASE_DIR, "dataset", "air_quality_health_impact_data.csv"),
-            help="Path to the CSV file (default: dataset/air_quality_health_impact_data.csv)",
-        )
-        parser.add_argument(
-            "--clear",
-            action="store_true",
-            help="Delete all existing records before seeding.",
-        )
+    def handle(self, *args, **kwargs):
+        csv_file_path = os.path.join(settings.BASE_DIR, "dataset", "pakistan_air_quality_final_clean.csv")
 
-    def handle(self, *args, **options):
-        csv_path = options["csv"]
-        clear = options["clear"]
-
-        # ----- Validate file exists -----
-        if not os.path.isfile(csv_path):
-            self.stderr.write(self.style.ERROR(f"CSV file not found: {csv_path}"))
+        if not os.path.exists(csv_file_path):
+            self.stdout.write(self.style.ERROR(f"CSV file not found at {csv_file_path}"))
             return
 
-        # ----- Optionally clear existing data -----
-        if clear:
-            count, _ = AirQualityRecord.objects.all().delete()
-            self.stdout.write(self.style.WARNING(f"Deleted {count} existing records."))
+        self.stdout.write(self.style.WARNING("Clearing existing data..."))
+        AirQualityRecord.objects.all().delete()
 
-        # ----- Read CSV -----
-        df = pd.read_csv(csv_path)
-        self.stdout.write(f"Read {len(df)} rows from {csv_path}")
+        self.stdout.write(self.style.SUCCESS("Loading data from CSV..."))
+        
+        records_to_create = []
+        with open(csv_file_path, newline='', encoding='utf-8') as csvfile:
+            reader = csv.DictReader(csvfile)
+            
+            for row in reader:
+                # Convert row strings to floats (or keep strings for target)
+                kwargs_for_model = {}
+                for csv_col, model_col in AirQualityRecord.CSV_FIELD_MAP.items():
+                    val = row.get(csv_col, "")
+                    if val == "":
+                        continue # Skip empty
+                    
+                    if model_col == "aqi_category":
+                        kwargs_for_model[model_col] = str(val)
+                    else:
+                        try:
+                            kwargs_for_model[model_col] = float(val)
+                        except ValueError:
+                            kwargs_for_model[model_col] = 0.0
 
-        # ----- Rename columns to match Django model fields -----
-        field_map = AirQualityRecord.CSV_FIELD_MAP
-        df = df.rename(columns=field_map)
+                records_to_create.append(AirQualityRecord(**kwargs_for_model))
 
-        # Keep only the columns that are in the model
-        model_fields = list(field_map.values())
-        df = df[model_fields]
+                # Batch create every 1000 rows to save memory
+                if len(records_to_create) >= 1000:
+                    AirQualityRecord.objects.bulk_create(records_to_create)
+                    records_to_create = []
 
-        # Cast health_impact_class to int
-        df["health_impact_class"] = df["health_impact_class"].astype(int)
+        # Create any remaining
+        if records_to_create:
+            AirQualityRecord.objects.bulk_create(records_to_create)
 
-        # ----- Bulk-create records -----
-        records = [
-            AirQualityRecord(**row)
-            for row in df.to_dict(orient="records")
-        ]
-
-        batch_size = 500
-        created = 0
-        for i in range(0, len(records), batch_size):
-            batch = records[i : i + batch_size]
-            AirQualityRecord.objects.bulk_create(batch)
-            created += len(batch)
-            self.stdout.write(f"  Inserted {created}/{len(records)} records...")
-
-        self.stdout.write(
-            self.style.SUCCESS(
-                f"Done! {created} records seeded into AirQualityRecord table."
-            )
-        )
+        self.stdout.write(self.style.SUCCESS(f"Successfully seeded database with Pakistan Air Quality dataset!"))

@@ -1,21 +1,17 @@
 from django.contrib import admin
-
 from .models import AirQualityRecord
-
 
 @admin.register(AirQualityRecord)
 class AirQualityRecordAdmin(admin.ModelAdmin):
-    """Admin interface for browsing air quality records."""
-
     list_display = (
         "id",
-        "aqi",
-        "pm10",
         "pm2_5",
+        "ozone",
         "temperature",
-        "health_impact_class",
+        "humidity",
+        "aqi_category",
         "created_at",
     )
-    list_filter = ("health_impact_class",)
-    search_fields = ("id",)
+    list_filter = ("aqi_category", "created_at")
+    search_fields = ("id", "aqi_category")
     readonly_fields = ("created_at",)
