@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env
+
+# Databases (IMPORTANT: Keep the file local)
+db.sqlite3
+
+# ML Models
+*.pkl
+*.joblib
+
+# OS
+.DS_Store
