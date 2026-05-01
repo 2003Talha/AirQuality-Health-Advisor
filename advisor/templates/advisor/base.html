@@ -76,6 +76,9 @@
             filter: blur(120px);
             z-index: -1;
             animation: float 20s infinite alternate ease-in-out;
+            /* Force GPU Hardware Acceleration */
+            will-change: transform;
+            transform: translateZ(0);
         }
         body::before {
             width: 600px; height: 600px;
@@ -98,14 +101,18 @@
         .sidebar {
             width: 280px;
             background: var(--sidebar-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border-right: 1px solid var(--card-border);
             position: fixed;
             top: 0; bottom: 0; left: 0;
             z-index: 100;
             padding: 2.5rem 1.5rem;
             transition: all 0.3s ease;
+            
+            /* Performance Fixes */
+            will-change: transform, backdrop-filter;
+            transform: translateZ(0);
         }
 
         .brand {
@@ -175,13 +182,18 @@
         /* Stunning Glass Cards */
         .glass-card {
             background: var(--card-bg);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border: 1px solid var(--card-border);
             border-radius: 20px;
             padding: 2.5rem;
             box-shadow: var(--glass-shadow);
             transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            
+            /* Performance Fixes */
+            contain: paint layout;
+            will-change: transform, backdrop-filter;
+            transform: translateZ(0);
         }
 
         .glass-card:hover {
