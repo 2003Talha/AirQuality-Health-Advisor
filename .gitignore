@@ -1,16 +1,43 @@
-# Python
+# ============================================
+# Air Quality Health Advisor - .gitignore
+# ============================================
+
+# ---------- Python ----------
 __pycache__/
 *.py[cod]
 *$py.class
+*.so
+*.egg-info/
+dist/
+build/
 venv/
+.venv/
+
+# ---------- Environment / Secrets ----------
 .env
+.env.*
+*.secret
+secrets.json
 
-# Databases (IMPORTANT: Keep the file local)
+# ---------- Django ----------
 db.sqlite3
+db.sqlite3-journal
+staticfiles/
+media/
 
-# ML Models
+# ---------- ML Models (large binary files) ----------
 *.pkl
 *.joblib
+*.h5
 
-# OS
+# ---------- IDE / Editor ----------
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ---------- OS ----------
 .DS_Store
+Thumbs.db
+Desktop.ini
