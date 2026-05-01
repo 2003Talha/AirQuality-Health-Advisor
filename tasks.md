@@ -25,10 +25,10 @@ This project is a full-stack web application designed to monitor air quality in 
 - [x] Clean and preprocess data; export the trained model to `health_model.pkl`.
 
 ### Phase 2: Django Backend Development
-- [ ] Initialize Django project and app.
-- [ ] Define `AirQualityRecord` model in `models.py` (matching Kaggle dataset columns).
-- [ ] Run migrations to create the `db.sqlite3` file.
-- [ ] Create a script to seed the database with the initial CSV data.
+- [x] Initialize Django project and app.
+- [x] Define `AirQualityRecord` model in `models.py` (matching Kaggle dataset columns).
+- [x] Run migrations to create the `db.sqlite3` file.
+- [x] Create a script to seed the database with the initial CSV data.
 
 ### Phase 3: Frontend & ML Integration
 - [ ] Design the base layout using Bootstrap 5 (Sidebar + Cards).
