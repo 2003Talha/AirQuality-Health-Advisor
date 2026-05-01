@@ -31,13 +31,13 @@ This project is a full-stack web application designed to monitor air quality in 
 - [x] Create a script to seed the database with the initial CSV data.
 
 ### Phase 3: Frontend & ML Integration
-- [ ] Design the base layout using Bootstrap 5 (Sidebar + Cards).
-- [ ] Implement the 'Add Instance' form and view logic.
-- [ ] Implement the 'Prediction' view:
+- [x] Design the base layout using Bootstrap 5 (Sidebar + Cards).
+- [x] Implement the 'Add Instance' form and view logic.
+- [x] Implement the 'Prediction' view:
     - Load `health_model.pkl`.
     - Pass user input through the model.
     - Apply logic-based health advice.
-- [ ] Create the results page to display health warnings.
+- [x] Create the results page to display health warnings.
 
 ### Phase 4: Power BI Integration (Manual Guided Phase)
 - [ ] Install SQLite ODBC Driver on Windows.

@@ -1,0 +1,118 @@
+{% extends 'advisor/base.html' %}
+
+{% block title %}Prediction Result | Air Quality Health Advisor{% endblock %}
+
+{% block extra_css %}
+<style>
+    .result-badge {
+        font-size: 1.1rem;
+        padding: 0.5rem 1.5rem;
+        border-radius: 50px;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .status-0 { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.3); }
+    .status-1 { background: rgba(250, 204, 21, 0.2); color: #facc15; border: 1px solid rgba(250, 204, 21, 0.3); }
+    .status-2 { background: rgba(249, 115, 22, 0.2); color: #fb923c; border: 1px solid rgba(249, 115, 22, 0.3); }
+    .status-3 { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+    .status-4 { background: rgba(153, 27, 27, 0.3); color: #fca5a5; border: 1px solid rgba(248, 113, 113, 0.4); }
+
+    .stat-box {
+        background: rgba(15, 23, 42, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        padding: 1.5rem;
+        text-align: center;
+    }
+    .stat-label {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 0.5rem;
+    }
+    .stat-value {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: white;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <a href="{% url 'advisor:dashboard' %}" class="text-decoration-none text-muted mb-2 d-inline-block">
+        <i class="bi bi-arrow-left"></i> Back to Dashboard
+    </a>
+    <h2 class="page-title mt-2">Health Assessment Result</h2>
+    <p class="page-subtitle">Based on the provided environmental parameters.</p>
+</div>
+
+<div class="row">
+    <!-- Main Prediction Card -->
+    <div class="col-lg-8">
+        <div class="glass-card h-100 position-relative overflow-hidden">
+            <!-- Decorative circle -->
+            <div style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; border-radius: 50%; background: var(--bs-{{ alert_level }}); filter: blur(60px); opacity: 0.2; pointer-events: none;"></div>
+            
+            <h5 class="text-muted mb-4">AI Prediction</h5>
+            
+            <div class="mb-4">
+                <div class="result-badge status-{{ record.health_impact_class }} mb-3">
+                    {% if record.health_impact_class == 0 %}<i class="bi bi-emoji-smile"></i>
+                    {% elif record.health_impact_class == 1 %}<i class="bi bi-emoji-neutral"></i>
+                    {% elif record.health_impact_class == 2 %}<i class="bi bi-emoji-frown"></i>
+                    {% elif record.health_impact_class == 3 %}<i class="bi bi-exclamation-triangle"></i>
+                    {% else %}<i class="bi bi-exclamation-octagon-fill"></i>{% endif %}
+                    {{ class_label }}
+                </div>
+            </div>
+
+            <div class="mt-5">
+                <h6 class="text-white mb-3"><i class="bi bi-shield-check me-2 text-{{ alert_level }}"></i> Recommended Actions</h6>
+                <ul class="list-group list-group-flush">
+                    {% for item in advice %}
+                        <li class="list-group-item bg-transparent text-light border-secondary py-3 px-0">
+                            <i class="bi bi-check2-circle text-{{ alert_level }} me-2"></i> {{ item }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Metrics Summary Sidebar -->
+    <div class="col-lg-4 mt-4 mt-lg-0">
+        <div class="glass-card">
+            <h5 class="text-muted mb-4">Input Summary</h5>
+            
+            <div class="d-flex flex-column gap-3">
+                <div class="stat-box">
+                    <div class="stat-label">Air Quality Index</div>
+                    <div class="stat-value">{{ record.aqi|floatformat:1 }}</div>
+                </div>
+                
+                <div class="stat-box">
+                    <div class="stat-label">PM2.5 Level</div>
+                    <div class="stat-value">{{ record.pm2_5|floatformat:1 }} <span style="font-size: 1rem; color: #94a3b8;">µg/m³</span></div>
+                </div>
+
+                <div class="stat-box">
+                    <div class="stat-label">Temperature</div>
+                    <div class="stat-value">{{ record.temperature|floatformat:1 }} <span style="font-size: 1rem; color: #94a3b8;">°C</span></div>
+                </div>
+            </div>
+            
+            <hr class="border-secondary my-4">
+            
+            <div class="text-center">
+                <p class="text-muted small mb-0">Record #{{ record.id }}</p>
+                <p class="text-muted small">{{ record.created_at|date:"M d, Y H:i" }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

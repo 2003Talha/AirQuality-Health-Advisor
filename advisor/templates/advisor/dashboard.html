@@ -1,0 +1,115 @@
+{% extends 'advisor/base.html' %}
+
+{% block title %}Dashboard | Air Quality Health Advisor{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="page-title">Air Quality Dashboard</h2>
+        <p class="page-subtitle">Enter real-time environmental metrics to predict health impact.</p>
+    </div>
+</div>
+
+<div class="glass-card">
+    <h4 class="mb-4 text-white">New Assessment</h4>
+    <form method="post" action="{% url 'advisor:dashboard' %}">
+        {% csrf_token %}
+        
+        <div class="row g-4">
+            <!-- Air Quality Metrics Section -->
+            <div class="col-12 mt-4">
+                <h6 class="text-uppercase text-muted fw-bold mb-3" style="font-size: 0.8rem; letter-spacing: 1px;">
+                    <i class="bi bi-cloud-haze2 me-2"></i>Air Quality Metrics
+                </h6>
+                <hr class="border-secondary mt-0 mb-3">
+            </div>
+            
+            <div class="col-md-4">
+                <label class="form-label">AQI (Index)</label>
+                {{ form.aqi }}
+                {% if form.aqi.errors %}<div class="text-danger small mt-1">{{ form.aqi.errors }}</div>{% endif %}
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">PM10 (µg/m³)</label>
+                {{ form.pm10 }}
+                {% if form.pm10.errors %}<div class="text-danger small mt-1">{{ form.pm10.errors }}</div>{% endif %}
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">PM2.5 (µg/m³)</label>
+                {{ form.pm2_5 }}
+                {% if form.pm2_5.errors %}<div class="text-danger small mt-1">{{ form.pm2_5.errors }}</div>{% endif %}
+            </div>
+            
+            <div class="col-md-4">
+                <label class="form-label">NO2 (ppb)</label>
+                {{ form.no2 }}
+                {% if form.no2.errors %}<div class="text-danger small mt-1">{{ form.no2.errors }}</div>{% endif %}
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">SO2 (ppb)</label>
+                {{ form.so2 }}
+                {% if form.so2.errors %}<div class="text-danger small mt-1">{{ form.so2.errors }}</div>{% endif %}
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">O3 (ppb)</label>
+                {{ form.o3 }}
+                {% if form.o3.errors %}<div class="text-danger small mt-1">{{ form.o3.errors }}</div>{% endif %}
+            </div>
+
+            <!-- Weather Section -->
+            <div class="col-12 mt-5">
+                <h6 class="text-uppercase text-muted fw-bold mb-3" style="font-size: 0.8rem; letter-spacing: 1px;">
+                    <i class="bi bi-thermometer-half me-2"></i>Weather Conditions
+                </h6>
+                <hr class="border-secondary mt-0 mb-3">
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Temperature (°C)</label>
+                {{ form.temperature }}
+                {% if form.temperature.errors %}<div class="text-danger small mt-1">{{ form.temperature.errors }}</div>{% endif %}
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Humidity (%)</label>
+                {{ form.humidity }}
+                {% if form.humidity.errors %}<div class="text-danger small mt-1">{{ form.humidity.errors }}</div>{% endif %}
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Wind Speed (m/s)</label>
+                {{ form.wind_speed }}
+                {% if form.wind_speed.errors %}<div class="text-danger small mt-1">{{ form.wind_speed.errors }}</div>{% endif %}
+            </div>
+
+            <!-- Current Regional Health Data Section -->
+            <div class="col-12 mt-5">
+                <h6 class="text-uppercase text-muted fw-bold mb-3" style="font-size: 0.8rem; letter-spacing: 1px;">
+                    <i class="bi bi-heart-pulse me-2"></i>Regional Health Status (Current)
+                </h6>
+                <hr class="border-secondary mt-0 mb-3">
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Respiratory Cases</label>
+                {{ form.respiratory_cases }}
+                {% if form.respiratory_cases.errors %}<div class="text-danger small mt-1">{{ form.respiratory_cases.errors }}</div>{% endif %}
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Cardiovascular Cases</label>
+                {{ form.cardiovascular_cases }}
+                {% if form.cardiovascular_cases.errors %}<div class="text-danger small mt-1">{{ form.cardiovascular_cases.errors }}</div>{% endif %}
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Hospital Admissions</label>
+                {{ form.hospital_admissions }}
+                {% if form.hospital_admissions.errors %}<div class="text-danger small mt-1">{{ form.hospital_admissions.errors }}</div>{% endif %}
+            </div>
+
+            <div class="col-12 mt-5 text-end">
+                <button type="submit" class="btn btn-primary px-5 py-2">
+                    <i class="bi bi-magic me-2"></i> Analyze & Predict
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
