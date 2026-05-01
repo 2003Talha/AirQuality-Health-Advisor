@@ -38,7 +38,8 @@ def dashboard_view(request):
 
             if rf_model and scaler:
                 # 1. Prepare data for the model
-                input_data = {feat: getattr(record, feat.lower()) for feat in FEATURE_COLUMNS}
+                # Use the CSV_FIELD_MAP to correctly map Kaggle column names to Django model attributes (e.g. WindSpeed -> wind_speed)
+                input_data = {feat: getattr(record, AirQualityRecord.CSV_FIELD_MAP[feat]) for feat in FEATURE_COLUMNS}
                 df_input = pd.DataFrame([input_data])
 
                 # 2. Scale features
@@ -98,3 +99,15 @@ def result_view(request, record_id):
         "alert_level": alert_level,
     }
     return render(request, "advisor/result.html", context)
+
+def history_view(request):
+    """View to show previously predicted and added records."""
+    # Fetch the latest 50 records
+    records = AirQualityRecord.objects.all().order_by('-created_at')[:50]
+    
+    # Map the class numbers to human readable labels
+    for record in records:
+        record.class_label_text = CLASS_LABELS.get(record.health_impact_class, "Unknown")
+        
+    return render(request, "advisor/history.html", {"records": records})
+

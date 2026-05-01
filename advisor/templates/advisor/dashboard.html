@@ -5,111 +5,139 @@
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
-        <h2 class="page-title">Air Quality Dashboard</h2>
+        <h2 class="page-title">New Prediction Assessment</h2>
         <p class="page-subtitle">Enter real-time environmental metrics to predict health impact.</p>
     </div>
 </div>
 
-<div class="glass-card">
-    <h4 class="mb-4 text-white">New Assessment</h4>
-    <form method="post" action="{% url 'advisor:dashboard' %}">
-        {% csrf_token %}
-        
-        <div class="row g-4">
-            <!-- Air Quality Metrics Section -->
-            <div class="col-12 mt-4">
-                <h6 class="text-uppercase text-muted fw-bold mb-3" style="font-size: 0.8rem; letter-spacing: 1px;">
-                    <i class="bi bi-cloud-haze2 me-2"></i>Air Quality Metrics
-                </h6>
-                <hr class="border-secondary mt-0 mb-3">
-            </div>
+<div class="row">
+    <!-- Form Column -->
+    <div class="col-lg-8 mb-4">
+        <div class="glass-card h-100">
+            <h4 class="mb-4 text-white fw-bold">Assessment Input</h4>
+            <form method="post" action="{% url 'advisor:dashboard' %}">
+                {% csrf_token %}
+                
+                <div class="row g-4">
+                    <!-- Air Quality Metrics Section -->
+                    <div class="col-12 mt-4">
+                        <h6 class="text-uppercase fw-bold mb-3" style="color: var(--accent-primary); font-size: 0.85rem; letter-spacing: 2px;">
+                            <i class="bi bi-cloud-haze2 me-2"></i>Air Quality Metrics
+                        </h6>
+                        <hr style="border-color: rgba(255,255,255,0.1); mt-0 mb-4">
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <label class="form-label">AQI (Index)</label>
+                        {{ form.aqi }}
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">PM10 (µg/m³)</label>
+                        {{ form.pm10 }}
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">PM2.5 (µg/m³)</label>
+                        {{ form.pm2_5 }}
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <label class="form-label">NO2 (ppb)</label>
+                        {{ form.no2 }}
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">SO2 (ppb)</label>
+                        {{ form.so2 }}
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">O3 (ppb)</label>
+                        {{ form.o3 }}
+                    </div>
+
+                    <!-- Weather Section -->
+                    <div class="col-12 mt-5">
+                        <h6 class="text-uppercase fw-bold mb-3" style="color: var(--accent-primary); font-size: 0.85rem; letter-spacing: 2px;">
+                            <i class="bi bi-thermometer-half me-2"></i>Weather Conditions
+                        </h6>
+                        <hr style="border-color: rgba(255,255,255,0.1); mt-0 mb-4">
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">Temperature (°C)</label>
+                        {{ form.temperature }}
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Humidity (%)</label>
+                        {{ form.humidity }}
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Wind Speed (m/s)</label>
+                        {{ form.wind_speed }}
+                    </div>
+
+                    <!-- Current Regional Health Data Section -->
+                    <div class="col-12 mt-5">
+                        <h6 class="text-uppercase fw-bold mb-3" style="color: var(--accent-primary); font-size: 0.85rem; letter-spacing: 2px;">
+                            <i class="bi bi-heart-pulse me-2"></i>Regional Health Status (Current)
+                        </h6>
+                        <hr style="border-color: rgba(255,255,255,0.1); mt-0 mb-4">
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">Respiratory Cases</label>
+                        {{ form.respiratory_cases }}
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Cardiovascular Cases</label>
+                        {{ form.cardiovascular_cases }}
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Hospital Admissions</label>
+                        {{ form.hospital_admissions }}
+                    </div>
+
+                    <div class="col-12 mt-5 text-end">
+                        <button type="submit" class="btn btn-primary px-5 py-3 shadow-lg w-100 fs-5">
+                            <i class="bi bi-stars me-2"></i> Analyze & Predict
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Index Guide Column (Shifted Classes to 1-5 and fixed text visibility) -->
+    <div class="col-lg-4 mb-4">
+        <div class="glass-card h-100" style="background: rgba(13, 14, 33, 0.8);">
+            <h5 class="mb-4 text-white fw-bold"><i class="bi bi-info-circle-fill me-2" style="color: var(--accent-primary);"></i> Health Impact Index</h5>
+            <p class="text-white-50 small mb-4 lh-lg">The AI model classifies health risk into one of 5 distinct categories based on your input.</p>
             
-            <div class="col-md-4">
-                <label class="form-label">AQI (Index)</label>
-                {{ form.aqi }}
-                {% if form.aqi.errors %}<div class="text-danger small mt-1">{{ form.aqi.errors }}</div>{% endif %}
-            </div>
-            <div class="col-md-4">
-                <label class="form-label">PM10 (µg/m³)</label>
-                {{ form.pm10 }}
-                {% if form.pm10.errors %}<div class="text-danger small mt-1">{{ form.pm10.errors }}</div>{% endif %}
-            </div>
-            <div class="col-md-4">
-                <label class="form-label">PM2.5 (µg/m³)</label>
-                {{ form.pm2_5 }}
-                {% if form.pm2_5.errors %}<div class="text-danger small mt-1">{{ form.pm2_5.errors }}</div>{% endif %}
-            </div>
-            
-            <div class="col-md-4">
-                <label class="form-label">NO2 (ppb)</label>
-                {{ form.no2 }}
-                {% if form.no2.errors %}<div class="text-danger small mt-1">{{ form.no2.errors }}</div>{% endif %}
-            </div>
-            <div class="col-md-4">
-                <label class="form-label">SO2 (ppb)</label>
-                {{ form.so2 }}
-                {% if form.so2.errors %}<div class="text-danger small mt-1">{{ form.so2.errors }}</div>{% endif %}
-            </div>
-            <div class="col-md-4">
-                <label class="form-label">O3 (ppb)</label>
-                {{ form.o3 }}
-                {% if form.o3.errors %}<div class="text-danger small mt-1">{{ form.o3.errors }}</div>{% endif %}
-            </div>
-
-            <!-- Weather Section -->
-            <div class="col-12 mt-5">
-                <h6 class="text-uppercase text-muted fw-bold mb-3" style="font-size: 0.8rem; letter-spacing: 1px;">
-                    <i class="bi bi-thermometer-half me-2"></i>Weather Conditions
-                </h6>
-                <hr class="border-secondary mt-0 mb-3">
-            </div>
-
-            <div class="col-md-4">
-                <label class="form-label">Temperature (°C)</label>
-                {{ form.temperature }}
-                {% if form.temperature.errors %}<div class="text-danger small mt-1">{{ form.temperature.errors }}</div>{% endif %}
-            </div>
-            <div class="col-md-4">
-                <label class="form-label">Humidity (%)</label>
-                {{ form.humidity }}
-                {% if form.humidity.errors %}<div class="text-danger small mt-1">{{ form.humidity.errors }}</div>{% endif %}
-            </div>
-            <div class="col-md-4">
-                <label class="form-label">Wind Speed (m/s)</label>
-                {{ form.wind_speed }}
-                {% if form.wind_speed.errors %}<div class="text-danger small mt-1">{{ form.wind_speed.errors }}</div>{% endif %}
-            </div>
-
-            <!-- Current Regional Health Data Section -->
-            <div class="col-12 mt-5">
-                <h6 class="text-uppercase text-muted fw-bold mb-3" style="font-size: 0.8rem; letter-spacing: 1px;">
-                    <i class="bi bi-heart-pulse me-2"></i>Regional Health Status (Current)
-                </h6>
-                <hr class="border-secondary mt-0 mb-3">
-            </div>
-
-            <div class="col-md-4">
-                <label class="form-label">Respiratory Cases</label>
-                {{ form.respiratory_cases }}
-                {% if form.respiratory_cases.errors %}<div class="text-danger small mt-1">{{ form.respiratory_cases.errors }}</div>{% endif %}
-            </div>
-            <div class="col-md-4">
-                <label class="form-label">Cardiovascular Cases</label>
-                {{ form.cardiovascular_cases }}
-                {% if form.cardiovascular_cases.errors %}<div class="text-danger small mt-1">{{ form.cardiovascular_cases.errors }}</div>{% endif %}
-            </div>
-            <div class="col-md-4">
-                <label class="form-label">Hospital Admissions</label>
-                {{ form.hospital_admissions }}
-                {% if form.hospital_admissions.errors %}<div class="text-danger small mt-1">{{ form.hospital_admissions.errors }}</div>{% endif %}
-            </div>
-
-            <div class="col-12 mt-5 text-end">
-                <button type="submit" class="btn btn-primary px-5 py-2">
-                    <i class="bi bi-magic me-2"></i> Analyze & Predict
-                </button>
+            <div class="d-flex flex-column gap-3">
+                <div class="p-4 rounded-4 position-relative overflow-hidden" style="background: rgba(52, 211, 153, 0.15); border-left: 5px solid #34d399;">
+                    <h6 class="mb-2 fw-bold" style="color: #6ee7b7; font-size: 1.1rem;">Level 1: Good</h6>
+                    <span style="color: #d1fae5; font-size: 0.95rem;">No health impact. Ideal air quality.</span>
+                </div>
+                
+                <div class="p-4 rounded-4 position-relative overflow-hidden" style="background: rgba(250, 204, 21, 0.15); border-left: 5px solid #facc15;">
+                    <h6 class="mb-2 fw-bold" style="color: #fde047; font-size: 1.1rem;">Level 2: Moderate</h6>
+                    <span style="color: #fef08a; font-size: 0.95rem;">Minor irritation possible for sensitive individuals.</span>
+                </div>
+                
+                <div class="p-4 rounded-4 position-relative overflow-hidden" style="background: rgba(249, 115, 22, 0.15); border-left: 5px solid #fb923c;">
+                    <h6 class="mb-2 fw-bold" style="color: #fdba74; font-size: 1.1rem;">Level 3: Unhealthy (Sensitive)</h6>
+                    <span style="color: #fed7aa; font-size: 0.95rem;">Unhealthy for sensitive groups like children and the elderly.</span>
+                </div>
+                
+                <div class="p-4 rounded-4 position-relative overflow-hidden" style="background: rgba(239, 68, 68, 0.15); border-left: 5px solid #f87171;">
+                    <h6 class="mb-2 fw-bold" style="color: #fca5a5; font-size: 1.1rem;">Level 4: Unhealthy</h6>
+                    <span style="color: #fecaca; font-size: 0.95rem;">Significant risk. Everyone may begin to experience health effects.</span>
+                </div>
+                
+                <div class="p-4 rounded-4 position-relative overflow-hidden" style="background: rgba(153, 27, 27, 0.3); border-left: 5px solid #f87171;">
+                    <h6 class="mb-2 fw-bold" style="color: #ffb3b3; font-size: 1.1rem;">Level 5: Hazardous</h6>
+                    <span style="color: #ffe6e6; font-size: 0.95rem;">Emergency conditions. Avoid all outdoor activities.</span>
+                </div>
             </div>
         </div>
-    </form>
+    </div>
 </div>
 {% endblock %}

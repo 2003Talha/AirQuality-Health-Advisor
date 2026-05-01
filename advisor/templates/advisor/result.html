@@ -67,7 +67,7 @@
                     {% elif record.health_impact_class == 2 %}<i class="bi bi-emoji-frown"></i>
                     {% elif record.health_impact_class == 3 %}<i class="bi bi-exclamation-triangle"></i>
                     {% else %}<i class="bi bi-exclamation-octagon-fill"></i>{% endif %}
-                    {{ class_label }}
+                    Level {{ record.health_impact_class|add:"1" }}: {{ class_label }}
                 </div>
             </div>
 

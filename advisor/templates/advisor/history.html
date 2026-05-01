@@ -1,0 +1,67 @@
+{% extends 'advisor/base.html' %}
+
+{% block title %}History | Air Quality Health Advisor{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="page-title">Prediction History</h2>
+        <p class="page-subtitle">View past air quality assessments and their health impacts.</p>
+    </div>
+    <a href="{% url 'advisor:dashboard' %}" class="btn btn-primary">
+        <i class="bi bi-plus-circle me-1"></i> New Assessment
+    </a>
+</div>
+
+<div class="glass-card p-0 overflow-hidden">
+    <div class="table-responsive">
+        <table class="table table-dark table-hover mb-0" style="background: transparent;">
+            <thead style="background: rgba(0,0,0,0.2);">
+                <tr>
+                    <th class="px-4 py-3 border-0">ID</th>
+                    <th class="py-3 border-0">Date</th>
+                    <th class="py-3 border-0">AQI</th>
+                    <th class="py-3 border-0">PM 2.5</th>
+                    <th class="py-3 border-0">Temp (°C)</th>
+                    <th class="px-4 py-3 border-0">Predicted Health Impact</th>
+                </tr>
+            </thead>
+            <tbody class="border-top-0">
+                {% for record in records %}
+                <tr>
+                    <td class="px-4 py-3 border-secondary align-middle text-muted">#{{ record.id }}</td>
+                    <td class="py-3 border-secondary align-middle">{{ record.created_at|date:"M d, Y H:i" }}</td>
+                    <td class="py-3 border-secondary align-middle fw-bold">{{ record.aqi|floatformat:1 }}</td>
+                    <td class="py-3 border-secondary align-middle">{{ record.pm2_5|floatformat:1 }}</td>
+                    <td class="py-3 border-secondary align-middle">{{ record.temperature|floatformat:1 }}</td>
+                    <td class="px-4 py-3 border-secondary align-middle">
+                        {% if record.health_impact_class == 0 %}
+                            <span class="badge bg-success bg-opacity-25 text-success border border-success px-3 py-2 rounded-pill"><i class="bi bi-emoji-smile me-1"></i> Level 1: {{ record.class_label_text }}</span>
+                        {% elif record.health_impact_class == 1 %}
+                            <span class="badge bg-warning bg-opacity-25 text-warning border border-warning px-3 py-2 rounded-pill"><i class="bi bi-emoji-neutral me-1"></i> Level 2: {{ record.class_label_text }}</span>
+                        {% elif record.health_impact_class == 2 %}
+                            <span class="badge" style="background: rgba(249, 115, 22, 0.2); color: #fb923c; border: 1px solid rgba(249, 115, 22, 0.5); padding: 0.5rem 1rem; border-radius: 50rem;"><i class="bi bi-emoji-frown me-1"></i> Level 3: {{ record.class_label_text }}</span>
+                        {% elif record.health_impact_class == 3 %}
+                            <span class="badge bg-danger bg-opacity-25 text-danger border border-danger px-3 py-2 rounded-pill"><i class="bi bi-exclamation-triangle me-1"></i> Level 4: {{ record.class_label_text }}</span>
+                        {% else %}
+                            <span class="badge bg-danger text-white border border-danger px-3 py-2 rounded-pill"><i class="bi bi-exclamation-octagon-fill me-1"></i> Level 5: {{ record.class_label_text }}</span>
+                        {% endif %}
+                        
+                        <a href="{% url 'advisor:result' record.id %}" class="btn btn-sm btn-outline-secondary ms-2 rounded-circle" title="View Details">
+                            <i class="bi bi-chevron-right"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center py-5 text-muted">
+                        <i class="bi bi-inbox fs-1 d-block mb-3"></i>
+                        No predictions found in the database.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
