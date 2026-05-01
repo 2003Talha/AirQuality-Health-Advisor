@@ -1,61 +1,44 @@
 # AirQuality Health Advisor
 
-> **Note:** This README is currently a quick-start guide for development. A full project description will be added once Phase 4 (Power BI Integration) is completed.
+A professional, high-performance web application designed for public health officials to monitor air quality and predict health risks using Machine Learning.
 
-## 🚀 Quick Start Guide
+## 🚀 Current Project Status: Phase 3 Complete
+We have successfully migrated the project to the **Pakistan Air Quality Dataset (22,000+ records)** and finalized the ultra-modern Glassmorphism UI.
 
-Follow these steps to get the project running on your local machine.
+### Key Features
+- **Machine Learning**: Random Forest model (99.06% accuracy) trained on 12 environmental pollutants.
+- **Dynamic Dashboard**: 12-feature assessment form with real-time prediction.
+- **Glassmorphism UI**: High-performance, GPU-accelerated design with Light/Dark mode support.
+- **Health Impact Index**: Integrated 6-level official AQI category guide.
+- **Record History**: Persistent storage of all assessments in SQLite.
 
-### 1. Clone the Repository
-Open your terminal and run:
+## 🛠️ Setup Instructions
+
+### 1. Clone & Environment
 ```bash
 git clone https://github.com/2003Talha/AirQuality-Health-Advisor.git
 cd AirQuality-Health-Advisor
-```
-
-### 2. Set Up the Virtual Environment
-It is highly recommended to use a virtual environment to manage dependencies.
-```bash
-# Create the virtual environment
 python -m venv venv
-
-# Activate it (Windows)
-.\venv\Scripts\activate
-
-# Activate it (Mac/Linux)
-source venv/bin/activate
+.\venv\Scripts\activate  # Windows
 ```
 
-### 3. Install Dependencies
-Install all required Python packages (Django, Pandas, Scikit-Learn, etc.):
+### 2. Install & Train
 ```bash
 pip install -r requirements.txt
-```
-
-### 4. Train the Machine Learning Model
-Because the trained model files (`.pkl`) are too large for GitHub, you need to generate them locally:
-```bash
+# Re-generate the ML model and Scaler
 python research/train_model.py
 ```
-*This script will read the dataset, train the Random Forest model, and save the required `.pkl` files to the `research/` folder.*
 
-### 5. Setup the Database
-The database file (`db.sqlite3`) is intentionally kept out of GitHub for security. You must initialize it and seed it with the original dataset:
+### 3. Database Initialization
 ```bash
-# 1. Create the database tables
 python manage.py migrate
-
-# 2. Seed the database with the 5,800+ rows from the CSV dataset
+# Seed the DB with the 21,840 records from the Pakistan dataset
 python manage.py seed_db
-
-# 3. (Optional) Create an admin account to access the Django Panel
-python manage.py createsuperuser
 ```
 
-### 6. Run the Server
-Finally, start the Django development server:
+### 4. Run
 ```bash
 python manage.py runserver
 ```
 
-Open your web browser and go to: **[http://127.0.0.1:8000](http://127.0.0.1:8000)** to view the dashboard!
+**Next Step**: Phase 4 - Power BI Integration.

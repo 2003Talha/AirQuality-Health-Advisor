@@ -1,7 +1,7 @@
 import os
 import joblib
 import pandas as pd
-from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import classification_report, accuracy_score
@@ -55,8 +55,8 @@ def main():
     X_test_scaled = scaler.transform(X_test)
 
     # 4. Train Model
-    print("Training Logistic Regression Model...")
-    rf_model = LogisticRegression(max_iter=2000, random_state=42, class_weight="balanced")
+    print("Training Random Forest Classifier (Restricted Depth)...")
+    rf_model = RandomForestClassifier(n_estimators=100, max_depth=3, random_state=42, class_weight="balanced")
     rf_model.fit(X_train_scaled, y_train)
 
     # 5. Evaluate Accuracy
