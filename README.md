@@ -1,44 +1,66 @@
-# AirQuality Health Advisor
+# 🌍 AirQuality Health Advisor (Pakistan Edition)
 
-A professional, high-performance web application designed for public health officials to monitor air quality and predict health risks using Machine Learning.
+A professional, end-to-end Data Science and Web application designed to monitor, predict, and analyze air quality across Pakistan using Machine Learning and Business Intelligence.
 
-## 🚀 Current Project Status: Phase 3 Complete
-We have successfully migrated the project to the **Pakistan Air Quality Dataset (22,000+ records)** and finalized the ultra-modern Glassmorphism UI.
+---
 
-### Key Features
-- **Machine Learning**: Random Forest model (99.06% accuracy) trained on 12 environmental pollutants.
-- **Dynamic Dashboard**: 12-feature assessment form with real-time prediction.
-- **Glassmorphism UI**: High-performance, GPU-accelerated design with Light/Dark mode support.
-- **Health Impact Index**: Integrated 6-level official AQI category guide.
-- **Record History**: Persistent storage of all assessments in SQLite.
+## 📸 Project Gallery
+
+| **Web Application Dashboard** | **AI Prediction Result** |
+|---|---|
+| ![Web App Dashboard](assets/web_dashboard.png) | ![Prediction Result](assets/prediction_result.png) |
+
+| **Power BI: National Map** | **Power BI: Temporal Trends** |
+|---|---|
+| ![Power BI Page 1](assets/pbi_page1.png) | ![Power BI Page 2](assets/pbi_page2.png) |
+
+---
+
+## 🚀 Key Features
+- **Machine Learning**: Random Forest model with **99.06% Accuracy** trained on 21,000+ records.
+- **Full-Stack App**: Django-based web interface with an ultra-modern **Glassmorphism UI**.
+- **Real Data**: Integrated **Pakistan Air Quality Dataset** with 26 environmental features.
+- **Power BI Analytics**: 4-page interactive dashboard with DAX-driven insights and AI decomposition.
+
+---
 
 ## 🛠️ Setup Instructions
 
-### 1. Clone & Environment
+### 1. Environment Setup
 ```bash
 git clone https://github.com/2003Talha/AirQuality-Health-Advisor.git
 cd AirQuality-Health-Advisor
 python -m venv venv
-.\venv\Scripts\activate  # Windows
+.\venv\Scripts\activate
 ```
 
-### 2. Install & Train
+### 2. Install Dependencies
 ```bash
 pip install -r requirements.txt
-# Re-generate the ML model and Scaler
-python research/train_model.py
 ```
 
-### 3. Database Initialization
+### 3. Database Initialization & Data Sync
 ```bash
 python manage.py migrate
-# Seed the DB with the 21,840 records from the Pakistan dataset
 python manage.py seed_db
 ```
 
-### 4. Run
+### 4. Machine Learning Training
+```bash
+python research/train_model.py
+```
+
+### 5. Start Web Server
 ```bash
 python manage.py runserver
 ```
 
-**Next Step**: Phase 4 - Power BI Integration.
+---
+
+## 📊 Power BI Connection
+1. Open `analytics/AirQuality_Analysis.pbix`.
+2. Go to **Transform Data** -> **Edit Parameters**.
+3. Update the **`ProjectPath`** to your local folder path.
+4. Click **Refresh** to see the live data from your SQLite database.
+
+---
