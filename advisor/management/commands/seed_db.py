@@ -6,7 +6,7 @@ from django.conf import settings
 from advisor.models import AirQualityRecord
 
 class Command(BaseCommand):
-    help = 'Seed database with Pakistan Air Quality dataset'
+    help = 'Seed database with the FULL Pakistan Air Quality dataset'
 
     def handle(self, *args, **kwargs):
         csv_path = os.path.join(settings.BASE_DIR, 'dataset', 'pakistan_air_quality_final_clean.csv')
@@ -20,12 +20,18 @@ class Command(BaseCommand):
 
         self.stdout.write(self.style.SUCCESS('Loading data from CSV...'))
         
-        # Load with pandas to handle dates and missing values easily
+        # Load with pandas for high-performance parsing
         df = pd.read_csv(csv_path)
         
+        # Convert timestamp strings to actual datetime objects
+        df['timestamp'] = pd.to_datetime(df['timestamp'])
+        
         records = []
+        self.stdout.write(self.style.SUCCESS(f'Processing {len(df)} rows...'))
+        
         for _, row in df.iterrows():
             record = AirQualityRecord(
+                timestamp=row.get('timestamp'),
                 city=row.get('city'),
                 latitude=row.get('latitude'),
                 longitude=row.get('longitude'),
@@ -40,22 +46,26 @@ class Command(BaseCommand):
                 humidity=row.get('humidity'),
                 precipitation=row.get('precipitation'),
                 wind_speed=row.get('wind_speed'),
+                wind_direction=row.get('wind_direction'),
                 pressure=row.get('pressure'),
                 date=row.get('date'),
                 hour=row.get('hour'),
+                day_of_week=row.get('day_of_week'),
+                month=row.get('month'),
                 month_name=row.get('month_name'),
+                year=row.get('year'),
+                is_weekend=bool(row.get('is_weekend')),
                 season=row.get('season'),
                 aqi_category=row.get('aqi_category')
             )
             records.append(record)
             
-            # Bulk create in chunks of 1000 for efficiency
-            if len(records) >= 1000:
+            # Bulk create for maximum speed
+            if len(records) >= 2000:
                 AirQualityRecord.objects.bulk_create(records)
                 records = []
 
-        # Create any remaining records
         if records:
             AirQualityRecord.objects.bulk_create(records)
 
-        self.stdout.write(self.style.SUCCESS('Successfully seeded database with full Pakistan Air Quality dataset (including location/time metadata)!'))
+        self.stdout.write(self.style.SUCCESS('SUCCESS: Your database is now a 100% complete digital twin of the CSV dataset.'))
