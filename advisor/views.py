@@ -2,6 +2,7 @@ import os
 import joblib
 import pandas as pd
 from django.conf import settings
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from .forms import AirQualityForm
@@ -86,6 +87,10 @@ def dashboard_view(request):
         "form": form,
         "model_loaded": rf_model is not None
     })
+def check_model_status_view(request):
+    """AJAX endpoint to check if the model is loaded."""
+    rf_model, _, _ = get_model_assets()
+    return JsonResponse({"model_loaded": rf_model is not None})
 
 def result_view(request, record_id):
     """View to show the health warning results."""

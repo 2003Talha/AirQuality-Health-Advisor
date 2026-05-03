@@ -77,6 +77,9 @@
                         </span>
                     </div>
                 </div>
+                <button id="verify-model-btn" class="btn btn-sm btn-outline-warning ms-auto fw-bold px-3 py-2 rounded-pill shadow-sm">
+                    <i class="bi bi-arrow-repeat me-1"></i> Verify System Readiness
+                </button>
             </div>
         </div>
         {% endif %}
@@ -212,6 +215,40 @@
         const form = document.getElementById('prediction-form');
         const modelLoaded = {{ model_loaded|yesno:"true,false" }};
         const warningBox = document.getElementById('model-warning-box');
+        const verifyBtn = document.getElementById('verify-model-btn');
+
+        if (verifyBtn) {
+            verifyBtn.addEventListener('click', function() {
+                // Add loading state
+                const originalContent = verifyBtn.innerHTML;
+                verifyBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Checking...';
+                verifyBtn.disabled = true;
+
+                fetch("{% url 'advisor:check_model_status' %}")
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.model_loaded) {
+                            // System is ready! Refresh to finalize UI
+                            window.location.reload();
+                        } else {
+                            // Still offline - shake to indicate failure
+                            setTimeout(() => {
+                                verifyBtn.innerHTML = originalContent;
+                                verifyBtn.disabled = false;
+                                if (warningBox) {
+                                    warningBox.classList.add('shake-warning');
+                                    setTimeout(() => warningBox.classList.remove('shake-warning'), 500);
+                                }
+                            }, 600);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        verifyBtn.innerHTML = originalContent;
+                        verifyBtn.disabled = false;
+                    });
+            });
+        }
 
         if (form) {
             form.addEventListener('submit', function(e) {
