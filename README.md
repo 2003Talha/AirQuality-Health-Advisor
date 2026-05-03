@@ -1,4 +1,4 @@
-# 🌍 AirQuality Health Advisor (Pakistan Edition)
+# 🌍 AirQuality Health Advisor 
 
 A professional, end-to-end Data Science and Web application designed to monitor, predict, and analyze air quality across Pakistan using Machine Learning and Business Intelligence.
 
@@ -10,7 +10,7 @@ A professional, end-to-end Data Science and Web application designed to monitor,
 |---|---|
 | ![Web App Dashboard](assets/web_dashboard.png) | ![Prediction Result](assets/prediction_result.png) |
 
-| **Power BI: National Map** | **Power BI: Temporal Trends** |
+| **Power BI: Executive Overview** | **Power BI: Temporal Trends** |
 |---|---|
 | ![Power BI Page 1](assets/pbi_page1.png) | ![Power BI Page 2](assets/pbi_page2.png) |
 
@@ -20,7 +20,11 @@ A professional, end-to-end Data Science and Web application designed to monitor,
 - **Machine Learning**: Random Forest model with **99.06% Accuracy** trained on 21,000+ records.
 - **Full-Stack App**: Django-based web interface with an ultra-modern **Glassmorphism UI**.
 - **Real Data**: Integrated **Pakistan Air Quality Dataset** with 26 environmental features.
--### 📊 Power BI Analytical Suite
+- **Power BI Analytics**: 4-page interactive dashboard with DAX-driven insights and AI decomposition.
+
+---
+
+### 📊 Power BI Analytical Suite
 The project includes a comprehensive 4-page Power BI dashboard connected directly to the Django database via a DSN-less connection for maximum portability.
 
 | Page | Focus | Key Insights |
@@ -40,7 +44,7 @@ The project includes a comprehensive 4-page Power BI dashboard connected directl
 ## 🛠️ Installation & Setup
 
 ### 1. Prerequisites
-- Python 3.10+
+- Python 3.13+
 - SQLite3 ODBC Driver (Required for Power BI)
 
 **Quick Install (Windows):**
@@ -49,20 +53,45 @@ winget install -e --id "ChristianWerner.SQLiteODBC"
 ```
 
 ### 2. Backend Setup
+
+**Clone the repository:**
 ```bash
-# Clone the repository
 git clone https://github.com/2003Talha/AirQuality-Health-Advisor.git
+```
 
-# Install dependencies
+**Change Directory:**
+```cmd 
+cd AirQuality-Health-Advisor
+```
+
+**Create Virtual Environment:**
+```bash
+python -m venv venv
+```
+
+**Activate Virtual Environment (Windows):**
+```cmd
+venv\Scripts\activate
+```
+
+**Install dependencies:**
+```bash
 pip install -r requirements.txt
+```
 
-# Setup Database
+**Setup Database:**
+```bash
 python manage.py makemigrations
 python manage.py migrate
+```
 
-# Seed Data ( पाकिस्तान Air Quality Dataset)
+**Seed Data:**
+```bash
 python manage.py seed_db
 ```
+
+> [!NOTE]
+> The project uses **SQLite3** as a portable database. The `seed_db` command automates the **ETL process**, migrating **21,840 records** from the raw **CSV dataset** into a structured schema optimized for both Django ORM and Power BI analytical queries.
 
 ### 3. Running the App
 ```bash
