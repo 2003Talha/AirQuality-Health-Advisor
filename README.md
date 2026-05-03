@@ -20,47 +20,60 @@ A professional, end-to-end Data Science and Web application designed to monitor,
 - **Machine Learning**: Random Forest model with **99.06% Accuracy** trained on 21,000+ records.
 - **Full-Stack App**: Django-based web interface with an ultra-modern **Glassmorphism UI**.
 - **Real Data**: Integrated **Pakistan Air Quality Dataset** with 26 environmental features.
-- **Power BI Analytics**: 4-page interactive dashboard with DAX-driven insights and AI decomposition.
+-### 📊 Power BI Analytical Suite
+The project includes a comprehensive 4-page Power BI dashboard connected directly to the Django database via a DSN-less connection for maximum portability.
 
----
+| Page | Focus | Key Insights |
+| :--- | :--- | :--- |
+| **1. Executive Overview** | National Status | Geospatial Maps, AQI Distribution, City KPIs |
+| **2. Temporal Trends** | Time Analysis | Hourly Traffic Cycles, Monthly Seasonality Trends |
+| **3. Pollutant Breakdown** | Chemical Mix | Ribbon Charts, Atmospheric Wind vs. Dust Correlation |
+| **4. Advanced Health Metrics** | Predictive Risk | AI Key Influencers, WHO Safety Gaps, Custom Risk Multipliers |
 
-## 🛠️ Setup Instructions
+![Web Dashboard](assets/web_dashboard.png)
+![Prediction Result](assets/prediction_result.png)
+![PBI Page 1](assets/pbi_page1.png)
+![PBI Page 2](assets/pbi_page2.png)
+![PBI Page 3](assets/pbi_page3.png)
+![PBI Page 4](assets/pbi_page4.png)
 
-### 1. Environment Setup
+## 🛠️ Installation & Setup
+
+### 1. Prerequisites
+- Python 3.10+
+- SQLite3 ODBC Driver (Required for Power BI)
+
+**Quick Install (Windows):**
+```powershell
+winget install -e --id "ChristianWerner.SQLiteODBC"
+```
+
+### 2. Backend Setup
 ```bash
+# Clone the repository
 git clone https://github.com/2003Talha/AirQuality-Health-Advisor.git
-cd AirQuality-Health-Advisor
-python -m venv venv
-.\venv\Scripts\activate
-```
 
-### 2. Install Dependencies
-```bash
+# Install dependencies
 pip install -r requirements.txt
-```
 
-### 3. Database Initialization & Data Sync
-```bash
+# Setup Database
+python manage.py makemigrations
 python manage.py migrate
+
+# Seed Data ( पाकिस्तान Air Quality Dataset)
 python manage.py seed_db
 ```
 
-### 4. Machine Learning Training
-```bash
-python research/train_model.py
-```
-
-### 5. Start Web Server
+### 3. Running the App
 ```bash
 python manage.py runserver
 ```
 
----
-
-## 📊 Power BI Connection
+### 4. Power BI Connectivity
 1. Open `analytics/AirQuality_Analysis.pbix`.
-2. Go to **Transform Data** -> **Edit Parameters**.
-3. Update the **`ProjectPath`** to your local folder path.
+2. If prompted for data source, go to **Transform Data** -> **Edit Parameters**.
+3. Update `ProjectPath` to your local folder (e.g., `C:\Projects\AirQuality-Health-Advisor`).
+4. Click **Apply Changes**.
 4. Click **Refresh** to see the live data from your SQLite database.
 
 ---
