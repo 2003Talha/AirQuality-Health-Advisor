@@ -1,5 +1,53 @@
 {% extends 'advisor/base.html' %}
 
+{% block extra_css %}
+<style>
+    @keyframes pulse-warning {
+        0% { box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.4); }
+        70% { box-shadow: 0 0 0 15px rgba(255, 193, 7, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(255, 193, 7, 0); }
+    }
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-8px); }
+        75% { transform: translateX(8px); }
+    }
+    .shake-warning {
+        animation: shake 0.2s ease-in-out 0s 2 !important;
+        border: 2px solid #ffc107 !important;
+    }
+    .model-inactive-alert {
+        animation: pulse-warning 2s infinite;
+        border-left: 8px solid #ffc107 !important;
+        background: rgba(255, 193, 7, 0.1) !important;
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+    }
+    .model-inactive-alert h4 {
+        color: #ffc107 !important;
+        text-shadow: 0 0 10px rgba(255, 193, 7, 0.2);
+    }
+    /* Ensure high contrast for paragraph text in both modes */
+    .model-inactive-alert p {
+        color: #ffffff !important;
+        opacity: 0.9;
+    }
+    [data-theme="light"] .model-inactive-alert p {
+        color: #2d3748 !important;
+    }
+    .model-inactive-alert code {
+        border: 1px solid rgba(255, 193, 7, 0.3) !important;
+    }
+    .status-hint {
+        color: rgba(255, 255, 255, 0.85) !important;
+        font-style: italic;
+    }
+    [data-theme="light"] .status-hint {
+        color: rgba(0, 0, 0, 0.65) !important;
+    }
+</style>
+{% endblock %}
+
 {% block title %}Dashboard | Air Quality Health Advisor{% endblock %}
 
 {% block content %}
@@ -14,13 +62,20 @@
     <!-- Form Column -->
     <div class="col-lg-8 mb-4">
         {% if not model_loaded %}
-        <div class="alert alert-warning border-0 shadow-sm mb-4 p-4" style="background: rgba(255, 193, 7, 0.1); border-left: 5px solid #ffc107 !important;">
-            <div class="d-flex align-items-center">
-                <i class="bi bi-exclamation-triangle-fill fs-2 me-3 text-warning"></i>
+        <div id="model-warning-box" class="alert alert-warning border-0 shadow-lg mb-5 p-4 model-inactive-alert">
+            <div class="d-flex align-items-start">
+                <i class="bi bi-cpu-fill fs-1 me-4 text-warning"></i>
                 <div>
-                    <h5 class="alert-heading fw-bold mb-1">ML Model Not Found!</h5>
-                    <p class="mb-0 text-muted">The prediction engine is currently inactive. Please run the training script in your terminal to enable AI assessments:</p>
-                    <code class="d-block mt-2 p-2 rounded bg-dark text-light">python research/train_model.py</code>
+                    <h4 class="alert-heading fw-bold mb-2" style="color: #ffc107;">System Status: Model Offline</h4>
+                    <p class="mb-3 fs-6 opacity-75">The predictive model has not been initialized for this local environment. To enable real-time health assessments, please complete the system training process as described in the project documentation.</p>
+                    <div class="d-flex align-items-center gap-3">
+                        <span class="badge bg-dark text-warning border border-warning-subtle py-2 px-3 font-monospace">
+                            <i class="bi bi-terminal me-2"></i>Status: INITIAL_SETUP_PENDING
+                        </span>
+                        <span class="small opacity-75 status-hint">
+                            &mdash; System initialization required
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -28,7 +83,7 @@
         
         <div class="glass-card h-100">
             <h4 class="mb-4 fw-bold" style="color: var(--text-main);">Assessment Input</h4>
-            <form method="post" action="{% url 'advisor:dashboard' %}">
+            <form method="post" action="{% url 'advisor:dashboard' %}" id="prediction-form">
                 {% csrf_token %}
                 
                 <div class="row g-4">
@@ -149,4 +204,38 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('prediction-form');
+        const modelLoaded = {{ model_loaded|yesno:"true,false" }};
+        const warningBox = document.getElementById('model-warning-box');
+
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                if (!modelLoaded) {
+                    e.preventDefault();
+                    if (warningBox) {
+                        // Scroll to warning
+                        warningBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        
+                        // Add shake effect
+                        warningBox.classList.add('shake-warning');
+                        
+                        // Flash background
+                        const originalBg = warningBox.style.background;
+                        warningBox.style.background = 'rgba(255, 193, 7, 0.3)';
+                        
+                        setTimeout(() => {
+                            warningBox.classList.remove('shake-warning');
+                            warningBox.style.background = originalBg;
+                        }, 500);
+                    }
+                }
+            });
+        }
+    });
+</script>
 {% endblock %}
