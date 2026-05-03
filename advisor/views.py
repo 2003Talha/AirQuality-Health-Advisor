@@ -44,7 +44,10 @@ def dashboard_view(request):
     else:
         form = AirQualityForm()
 
-    return render(request, "advisor/dashboard.html", {"form": form})
+    return render(request, "advisor/dashboard.html", {
+        "form": form,
+        "model_loaded": rf_model is not None
+    })
 
 def result_view(request, record_id):
     """View to show the health warning results."""

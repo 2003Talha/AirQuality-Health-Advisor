@@ -13,6 +13,19 @@
 <div class="row">
     <!-- Form Column -->
     <div class="col-lg-8 mb-4">
+        {% if not model_loaded %}
+        <div class="alert alert-warning border-0 shadow-sm mb-4 p-4" style="background: rgba(255, 193, 7, 0.1); border-left: 5px solid #ffc107 !important;">
+            <div class="d-flex align-items-center">
+                <i class="bi bi-exclamation-triangle-fill fs-2 me-3 text-warning"></i>
+                <div>
+                    <h5 class="alert-heading fw-bold mb-1">ML Model Not Found!</h5>
+                    <p class="mb-0 text-muted">The prediction engine is currently inactive. Please run the training script in your terminal to enable AI assessments:</p>
+                    <code class="d-block mt-2 p-2 rounded bg-dark text-light">python research/train_model.py</code>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        
         <div class="glass-card h-100">
             <h4 class="mb-4 fw-bold" style="color: var(--text-main);">Assessment Input</h4>
             <form method="post" action="{% url 'advisor:dashboard' %}">
@@ -36,24 +49,24 @@
                         {{ form.pm2_5 }}
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label">Carbon Monoxide</label>
+                        <label class="form-label">Carbon Monoxide (µg/m³)</label>
                         {{ form.carbon_monoxide }}
                     </div>
                     
                     <div class="col-md-4">
-                        <label class="form-label">Nitrogen Dioxide</label>
+                        <label class="form-label">Nitrogen Dioxide (µg/m³)</label>
                         {{ form.nitrogen_dioxide }}
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label">Sulphur Dioxide</label>
+                        <label class="form-label">Sulphur Dioxide (µg/m³)</label>
                         {{ form.sulphur_dioxide }}
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label">Ozone</label>
+                        <label class="form-label">Ozone (µg/m³)</label>
                         {{ form.ozone }}
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label">Dust</label>
+                        <label class="form-label">Dust (µg/m³)</label>
                         {{ form.dust }}
                     </div>
 
@@ -74,7 +87,7 @@
                         {{ form.humidity }}
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label">Precipitation</label>
+                        <label class="form-label">Precipitation (mm)</label>
                         {{ form.precipitation }}
                     </div>
                     <div class="col-md-4">
@@ -82,7 +95,7 @@
                         {{ form.wind_speed }}
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label">Pressure</label>
+                        <label class="form-label">Pressure (hPa)</label>
                         {{ form.pressure }}
                     </div>
 

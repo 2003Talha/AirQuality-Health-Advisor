@@ -70,13 +70,22 @@ python -m venv venv
 ```
 
 **Activate Virtual Environment (Windows):**
-```cmd
+```powershell
 venv\Scripts\activate
+```
+
+**Activate Virtual Environment (Linux/macOS):**
+```bash
+source venv/bin/activate
 ```
 
 **Install dependencies:**
 ```bash
 pip install -r requirements.txt
+```
+**Train ML Model:**
+```bash
+python research/train_model.py
 ```
 
 **Setup Database:**
@@ -93,10 +102,17 @@ python manage.py seed_db
 > [!NOTE]
 > The project uses **SQLite3** as a portable database. The `seed_db` command automates the **ETL process**, migrating **21,840 records** from the raw **CSV dataset** into a structured schema optimized for both Django ORM and Power BI analytical queries.
 
+**Create Admin User:**
+```bash
+python manage.py createsuperuser
+```
+
 ### 3. Running the App
 ```bash
 python manage.py runserver
 ```
+
+Open your web browser and go to: **[http://127.0.0.1:8000](http://127.0.0.1:8000)** to view the dashboard!
 
 ### 4. Power BI Connectivity
 1. Open `analytics/AirQuality_Analysis.pbix`.
