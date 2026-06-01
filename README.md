@@ -75,7 +75,7 @@ The project includes a comprehensive 4-page Power BI dashboard connected directl
 
 **Clone the repository:**
 ```bash
-git clone https://github.com/2003Talha/AirQuality-Health-Advisor.git
+git clone https://github.com/MonadVoid/AirQuality-Health-Advisor.git
 ```
 
 **Change Directory:**
